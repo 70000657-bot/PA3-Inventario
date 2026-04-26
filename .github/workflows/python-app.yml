@@ -1,4 +1,4 @@
-name: CI - Sistema de Inventario
+name: CI - Inventario Equipos de Computo
 
 on:
   push:
@@ -18,11 +18,20 @@ jobs:
       with:
         python-version: '3.10'
 
+    - name: Instalar dependencias
+      run: pip install sqlalchemy
+
     - name: Verificar sintaxis del codigo base
       run: python -m py_compile Inventario.py
 
     - name: Verificar sintaxis del codigo optimizado
       run: python -m py_compile Inventario_Optimizado.py
+
+    - name: Verificar sintaxis del ORM
+      run: python -m py_compile inventario_orm.py
+
+    - name: Ejecutar pruebas unitarias
+      run: python -m unittest test_inventario.py -v
 
     - name: Mostrar version de Python
       run: python --version
